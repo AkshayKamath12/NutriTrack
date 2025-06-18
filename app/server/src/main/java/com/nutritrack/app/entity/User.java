@@ -12,7 +12,6 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String name;
     private String username;
     private String email;
     private String password;
@@ -23,9 +22,8 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
     private Set<Role> roles;
 
-    public User(long id, String name, String username, String email, String password, Set<Role> roles) {
+    public User(long id, String username, String email, String password, Set<Role> roles) {
         this.id = id;
-        this.name = name;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -40,14 +38,6 @@ public class User {
 
     public void setId(long id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getUsername() {
