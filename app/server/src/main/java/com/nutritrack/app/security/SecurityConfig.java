@@ -21,12 +21,6 @@ import java.util.Arrays;
 @Configuration
 @EnableMethodSecurity
 public class SecurityConfig {
-    private UserDetailsService userDetailsService;
-
-    public SecurityConfig(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
-    }
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
