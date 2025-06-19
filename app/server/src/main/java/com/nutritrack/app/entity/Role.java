@@ -1,9 +1,17 @@
 package com.nutritrack.app.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "roles")
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -12,30 +20,9 @@ public class Role {
     @Column(length = 60)
     private String name;
 
-    public Role(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
 
     public Role(String name) {
         this.name = name;
     }
 
-    public Role() {}
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
