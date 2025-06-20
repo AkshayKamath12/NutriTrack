@@ -62,4 +62,14 @@ public class NutriLabelService {
         nutriLabelRepository.save(existing);
         return true;
     }
+
+    public boolean deleteNutriLabel(long id) {
+        Optional<NutriLabel> nutriLabelDB = nutriLabelRepository.findById(id);
+        if(nutriLabelDB.isEmpty()) {
+            return false;
+        }
+        NutriLabel nutriLabel = nutriLabelDB.get();
+        nutriLabelRepository.delete(nutriLabel);
+        return true;
+    }
 }

@@ -38,9 +38,18 @@ public class NutriLabelController {
     }
 
     @PutMapping("/labels/{id}")
-    public ResponseEntity<?> updateNutriLabel(@RequestBody NutriLabel nutriLabel, @PathVariable int id) {
+    public ResponseEntity<?> updateNutriLabel(@RequestBody NutriLabel nutriLabel, @PathVariable long id) {
         boolean addedLabel = nutriLabelService.updateNutriLabel(nutriLabel, id);
         if(!addedLabel) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @DeleteMapping("/labels/{id}")
+    public ResponseEntity<?> deleteNutriLabel(@PathVariable long id) {
+        boolean removedLabel = nutriLabelService.deleteNutriLabel(id);
+        if(!removedLabel) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
