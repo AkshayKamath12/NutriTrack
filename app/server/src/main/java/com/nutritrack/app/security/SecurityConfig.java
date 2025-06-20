@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .cors(httpSecurityCorsConfigurer -> httpSecurityCorsConfigurer.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().permitAll()
-                        authorize.requestMatchers(HttpMethod.GET, "/api/nutri/**").hasAnyRole("USER", "ADMIN")
+                        authorize.requestMatchers("/api/nutri/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated()
 

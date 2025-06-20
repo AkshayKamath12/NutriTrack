@@ -2,9 +2,9 @@ package com.nutritrack.app.controller;
 
 import com.nutritrack.app.entity.NutriLabel;
 import com.nutritrack.app.service.NutriLabelService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,5 +25,15 @@ public class NutriLabelController {
             return null;
         }
         return nutriLabelService.getAllNutriLabels(username);
+    }
+
+    @PostMapping("/labels")
+    public ResponseEntity<?> addNutriLabel(@RequestBody NutriLabel nutriLabel, Principal principal) {
+        String username = principal.getName();
+        if(username == null) {
+            return new ResponseEntity<>("Username is null", HttpStatus.BAD_REQUEST);
+        }
+        nutriLabelService.addNutriLabel(nutriLabel, username);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
