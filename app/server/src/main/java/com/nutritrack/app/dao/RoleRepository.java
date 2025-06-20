@@ -1,7 +1,8 @@
 package com.nutritrack.app.dao;
 
-import com.nutritrack.app.entity.Role;
+
 import org.springframework.data.jpa.repository.JpaRepository;
+import com.nutritrack.app.entity.Role;
 
 import java.util.Optional;
 

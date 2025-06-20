@@ -2,6 +2,7 @@ package com.nutritrack.app.seed;
 
 import com.nutritrack.app.dao.RoleRepository;
 import com.nutritrack.app.entity.Role;
+
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
