@@ -6,6 +6,7 @@ import com.nutritrack.app.dto.SignInDTO;
 import com.nutritrack.app.dto.SignUpDTO;
 import com.nutritrack.app.entity.Role;
 import com.nutritrack.app.entity.User;
+import com.nutritrack.app.service.AuthService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.http.HttpStatus;
@@ -28,46 +29,24 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
-    private AuthenticationManager authenticationManager;
-    private PasswordEncoder passwordEncoder;
-    private UserRepository userRepository;
-    private RoleRepository roleRepository;
+    private AuthService authService;
 
-    public AuthController(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository) {
-        this.authenticationManager = authenticationManager;
-        this.passwordEncoder = passwordEncoder;
-        this.userRepository = userRepository;
-        this.roleRepository = roleRepository;
+    public AuthController(AuthService authService) {
+        this.authService = authService;
     }
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody SignInDTO signInDTO, HttpServletRequest request) {
-        String usernameOrEmail = signInDTO.getUsernameOrEmail();
-        String password = signInDTO.getPassword();
-        Authentication auth = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrEmail, password));
-        SecurityContextHolder.getContext().setAuthentication(auth);
-        HttpSession session = request.getSession(true);
-        session.setAttribute("SPRING_SECURITY_CONTEXT", new SecurityContextImpl(auth));
+        authService.login(signInDTO, request);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/register")
     public ResponseEntity<?> register(@RequestBody SignUpDTO signUpDTO) {
-        //check if username already exists
-        Optional<User> user = userRepository.findByUsernameOrEmail(signUpDTO.getUsername(), signUpDTO.getEmail());
-        if (user.isPresent()) {
-            return new ResponseEntity<>(HttpStatus.CONFLICT);
+        boolean registered = authService.signup(signUpDTO);
+        if(!registered) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-
-        User userNew = new User();
-        userNew.setUsername(signUpDTO.getUsername());
-        userNew.setEmail(signUpDTO.getEmail());
-        userNew.setPassword(passwordEncoder.encode(signUpDTO.getPassword()));
-
-        Role role = roleRepository.findByName("ROLE_USER").get();
-        userNew.setRoles(Collections.singleton(role));
-        userRepository.save(userNew);
-
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }
