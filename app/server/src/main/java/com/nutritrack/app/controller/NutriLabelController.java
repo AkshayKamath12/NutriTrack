@@ -36,4 +36,13 @@ public class NutriLabelController {
         nutriLabelService.addNutriLabel(nutriLabel, username);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
+    @PutMapping("/labels/{id}")
+    public ResponseEntity<?> updateNutriLabel(@RequestBody NutriLabel nutriLabel, @PathVariable int id) {
+        boolean addedLabel = nutriLabelService.updateNutriLabel(nutriLabel, id);
+        if(!addedLabel) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
