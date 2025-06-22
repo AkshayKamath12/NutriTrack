@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class NutriLabelController {
     public List<NutriLabel> getNutriLabels(Principal principal) {
         String username = principal.getName();
         if(username == null) {
-            return null;
+            return new ArrayList<>();
         }
         return nutriLabelService.getAllNutriLabels(username);
     }
@@ -30,7 +31,7 @@ public class NutriLabelController {
     public ResponseEntity<?> addNutriLabel(@RequestBody NutriLabel nutriLabel, Principal principal) {
         String username = principal.getName();
         if(username == null) {
-            return new ResponseEntity<>("Username is null", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         nutriLabelService.addNutriLabel(nutriLabel, username);
         return new ResponseEntity<>(HttpStatus.CREATED);
