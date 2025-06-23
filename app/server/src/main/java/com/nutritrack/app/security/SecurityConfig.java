@@ -48,6 +48,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) ->
                         //authorize.anyRequest().permitAll()
                         authorize.requestMatchers("/api/nutri/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/insights/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated()
 
