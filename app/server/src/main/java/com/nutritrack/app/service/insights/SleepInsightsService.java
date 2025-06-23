@@ -80,11 +80,11 @@ public class SleepInsightsService {
     private String dietaryFiberInsights(double averageDietaryFiber) {
         String result = "The average dietary fiber is " + averageDietaryFiber + " grams.\n";
         if(averageDietaryFiber < 5) {
-            return "Your meals are low in dietary fiber. Low fiber is linked to reduced time in slow-wave sleep, which is the stage your brain uses for memory consolidation and physical restoration.";
+            return result + "Your meals are low in dietary fiber. Low fiber is linked to reduced time in slow-wave sleep, which is the stage your brain uses for memory consolidation and physical restoration.";
         } else if(averageDietaryFiber < 8) {
-            return "You’re getting a fair amount of fiber. Research shows moderate fiber intake helps prevent blood sugar crashes at night, supporting more continuous sleep.";
+            return result + "You’re getting a fair amount of fiber. Research shows moderate fiber intake helps prevent blood sugar crashes at night, supporting more continuous sleep.";
         } else {
-            return "Excellent, your fiber intake is high. Higher fiber diets are linked to more time spent in deep sleep and shorter time to fall asleep, helping your body and brain recover overnight.";
+            return result + "Excellent, your fiber intake is high. Higher fiber diets are linked to more time spent in deep sleep and shorter time to fall asleep, helping your body and brain recover overnight.";
         }
     }
 
