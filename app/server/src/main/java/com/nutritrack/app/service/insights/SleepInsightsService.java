@@ -12,12 +12,6 @@ import java.util.List;
 
 @Service
 public class SleepInsightsService {
-    private NutriLabelService nutriLabelService;
-
-    public SleepInsightsService(NutriLabelService nutriLabelService) {
-        this.nutriLabelService = nutriLabelService;
-    }
-
     public SleepInsightsDTO getSleepInsights(Meal meal) {
         SleepInsightsDTO sleepInsights = new SleepInsightsDTO();
         List<NutriLabel> nutriLabels = meal.getNutritionLabels();

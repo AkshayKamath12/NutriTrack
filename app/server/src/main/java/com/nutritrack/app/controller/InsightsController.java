@@ -1,6 +1,7 @@
 package com.nutritrack.app.controller;
 
 import com.nutritrack.app.dto.SleepInsightsDTO;
+import com.nutritrack.app.dto.WeightInsightsDTO;
 import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.service.InsightsService;
 import com.nutritrack.app.service.MealService;
@@ -28,5 +29,14 @@ public class InsightsController {
             return null;
         }
         return insightsService.getSleepInsights(meal);
+    }
+
+    @GetMapping("/weightLoss/{mealId}")
+    public WeightInsightsDTO weightInsights(@PathVariable long mealId) {
+        Meal meal = mealService.getMeal(mealId);
+        if (meal == null) {
+            return null;
+        }
+        return insightsService.getWeightInsights(meal);
     }
 }
