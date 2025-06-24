@@ -1,39 +1,50 @@
 package com.nutritrack.app.controller;
 
+import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.entity.NutriLabel;
+import com.nutritrack.app.service.MealService;
 import com.nutritrack.app.service.NutriLabelService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/nutri")
 public class NutriLabelController {
     private NutriLabelService nutriLabelService;
+    private MealService mealService;
 
-    public NutriLabelController(NutriLabelService nutriLabelService) {
+    public NutriLabelController(NutriLabelService nutriLabelService, MealService mealService) {
         this.nutriLabelService = nutriLabelService;
+        this.mealService = mealService;
     }
 
-    @GetMapping("/labels")
-    public List<NutriLabel> getNutriLabels(Principal principal) {
+    @GetMapping("/labels/{mealId}")
+    public List<NutriLabel> getNutriLabels(@PathVariable long mealId,Principal principal) {
         String username = principal.getName();
         if(username == null) {
-            return new ArrayList<>();
+            return null;
         }
-        return nutriLabelService.getAllNutriLabels(username);
+        Meal meal = mealService.getMeal(mealId);
+        if (meal == null) {
+            return null;
+        }
+        return nutriLabelService.getAllNutriLabels(meal);
     }
 
-    @PostMapping("/labels")
-    public ResponseEntity<?> addNutriLabel(@RequestBody NutriLabel nutriLabel, Principal principal) {
+    @PostMapping("/labels/{mealId}")
+    public ResponseEntity<?> addNutriLabel(@RequestBody NutriLabel nutriLabel, @PathVariable long mealId, Principal principal) {
         String username = principal.getName();
         if(username == null) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        nutriLabelService.addNutriLabel(nutriLabel, username);
+        Meal meal = mealService.getMeal(mealId);
+        if (meal == null) {
+            return null;
+        }
+        nutriLabelService.addNutriLabel(nutriLabel, meal);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
