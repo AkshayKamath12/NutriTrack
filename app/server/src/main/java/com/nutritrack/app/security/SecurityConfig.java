@@ -49,6 +49,7 @@ public class SecurityConfig {
                         //authorize.anyRequest().permitAll()
                         authorize.requestMatchers("/api/nutri/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/insights/**").hasAnyRole("USER", "ADMIN")
+                                .requestMatchers("/api/meals/**").hasAnyRole("USER", "ADMIN")
                                 .requestMatchers("/api/auth/**").permitAll()
                                 .anyRequest().authenticated()
 
