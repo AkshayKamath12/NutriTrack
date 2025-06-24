@@ -3,6 +3,7 @@ package com.nutritrack.app.service.insights;
 import com.nutritrack.app.dto.SleepInsightsDTO;
 import com.nutritrack.app.dto.sleep.SleepNumeric;
 import com.nutritrack.app.dto.sleep.SleepText;
+import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.entity.NutriLabel;
 import com.nutritrack.app.service.NutriLabelService;
 import org.springframework.stereotype.Service;
@@ -17,9 +18,9 @@ public class SleepInsightsService {
         this.nutriLabelService = nutriLabelService;
     }
 
-    public SleepInsightsDTO getSleepInsights(String username) {
+    public SleepInsightsDTO getSleepInsights(Meal meal) {
         SleepInsightsDTO sleepInsights = new SleepInsightsDTO();
-        List<NutriLabel> nutriLabels = nutriLabelService.getAllNutriLabels(username);
+        List<NutriLabel> nutriLabels = meal.getNutritionLabels();
         double totalAddedSugars = 0;
         double totalSodium = 0;
         double totalDietaryFiber = 0;
@@ -97,6 +98,5 @@ public class SleepInsightsService {
         } else {
             return result + "This meal is high in protein. While protein is essential, very high amounts, especially close to bedtime, can increase alertness and reduce REM sleep";
         }
-
     }
 }
