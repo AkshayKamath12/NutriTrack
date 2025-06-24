@@ -19,10 +19,10 @@ public class NutriLabel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "meal_id")
     @JsonIgnore
-    private User user;
+    private Meal meal;
 
     private String productName;
     private String brandName;
