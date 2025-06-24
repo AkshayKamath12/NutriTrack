@@ -33,20 +33,28 @@ public class SleepInsightsService {
         double averageDietaryFiber = totalDietaryFiber / nutriLabelSize;
         double averageProtein = totalProtein / nutriLabelSize;
 
-        SleepText textInsights = new SleepText();
-        textInsights.setSugarIntake(sugarInsights(averageAddedSugars));
-        textInsights.setSodiumIntake(sodiumInsights(averageSodium));
-        textInsights.setFiberIntake(dietaryFiberInsights(averageDietaryFiber));
-        textInsights.setProteinIntake(proteinInsights(averageProtein));
-
         SleepNumeric numericInsights = new SleepNumeric();
-        numericInsights.setAverageAddedSugars(averageAddedSugars);
-        numericInsights.setAverageSodium(averageSodium);
-        numericInsights.setAverageDietaryFiber(averageDietaryFiber);
-        numericInsights.setAverageProtein(averageProtein);
+        SleepText textInsights = new SleepText();
 
-        sleepInsights.setSleepText(textInsights);
+        //handle average added sugars
+        numericInsights.setAverageAddedSugars(averageAddedSugars);
+        textInsights.setAverageAddedSugarsInsight(sugarInsights(averageAddedSugars));
+
+        //handle average sodium
+        numericInsights.setAverageSodium(averageSodium);
+        textInsights.setAverageSodiumInsight(sodiumInsights(averageSodium));
+
+        //handle average dietary fiber
+        numericInsights.setAverageDietaryFiber(averageDietaryFiber);
+        textInsights.setAverageDietaryFiberInsight(dietaryFiberInsights(averageDietaryFiber));
+
+        //handle average protein
+        numericInsights.setAverageProtein(averageProtein);
+        textInsights.setAverageProteinInsight(proteinInsights(averageProtein));
+
         sleepInsights.setSleepNumeric(numericInsights);
+        sleepInsights.setSleepText(textInsights);
+
         return sleepInsights;
     }
 
