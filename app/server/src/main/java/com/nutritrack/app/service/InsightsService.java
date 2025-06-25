@@ -1,8 +1,10 @@
 package com.nutritrack.app.service;
 
+import com.nutritrack.app.dto.MentalHealthInsightsDTO;
 import com.nutritrack.app.dto.SleepInsightsDTO;
 import com.nutritrack.app.dto.WeightInsightsDTO;
 import com.nutritrack.app.entity.Meal;
+import com.nutritrack.app.service.insights.MentalHealthService;
 import com.nutritrack.app.service.insights.SleepInsightsService;
 import com.nutritrack.app.service.insights.WeightLossService;
 import org.springframework.stereotype.Service;
@@ -12,10 +14,12 @@ import org.springframework.stereotype.Service;
 public class InsightsService {
     private SleepInsightsService sleepInsightsService;
     private WeightLossService weightLossService;
+    private MentalHealthService mentalHealthService;
 
-    public InsightsService(SleepInsightsService sleepInsightsService, WeightLossService weightLossService) {
+    public InsightsService(SleepInsightsService sleepInsightsService, WeightLossService weightLossService, MentalHealthService mentalHealthService) {
         this.sleepInsightsService = sleepInsightsService;
         this.weightLossService = weightLossService;
+        this.mentalHealthService = mentalHealthService;
     }
 
     public SleepInsightsDTO getSleepInsights(Meal meal) {
@@ -24,5 +28,9 @@ public class InsightsService {
 
     public WeightInsightsDTO getWeightInsights(Meal meal) {
         return weightLossService.getWeightLossInsights(meal);
+    }
+
+    public MentalHealthInsightsDTO getMentalHealthInsights(Meal meal) {
+        return mentalHealthService.getMentalHealthInsights(meal);
     }
 }
