@@ -50,8 +50,8 @@ public class NutriLabelController {
 
     @PutMapping("/labels/{id}")
     public ResponseEntity<?> updateNutriLabel(@RequestBody NutriLabel nutriLabel, @PathVariable long id) {
-        boolean addedLabel = nutriLabelService.updateNutriLabel(nutriLabel, id);
-        if(!addedLabel) {
+        long addedLabel = nutriLabelService.updateNutriLabel(nutriLabel, id);
+        if(addedLabel == -1) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);
@@ -59,8 +59,8 @@ public class NutriLabelController {
 
     @DeleteMapping("/labels/{id}")
     public ResponseEntity<?> deleteNutriLabel(@PathVariable long id) {
-        boolean removedLabel = nutriLabelService.deleteNutriLabel(id);
-        if(!removedLabel) {
+        long removedLabel = nutriLabelService.deleteNutriLabel(id);
+        if(removedLabel == -1) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(HttpStatus.OK);

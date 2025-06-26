@@ -5,6 +5,7 @@ import com.nutritrack.app.dao.NutriLabelRepository;
 import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.entity.NutriLabel;
 import com.nutritrack.app.entity.User;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +25,7 @@ public class NutriLabelService {
         return meal.getNutritionLabels();
     }
 
+    @CacheEvict(value = {"sleepInsights", "weightInsights", "mentalHealthInsights"}, key = "#meal.id")
     public void addNutriLabel(NutriLabel nutriLabel, Meal meal) {
         nutriLabel.setMeal(meal);
         nutriLabelRepository.save(nutriLabel);
@@ -31,10 +33,11 @@ public class NutriLabelService {
         mealRepository.save(meal);
     }
 
-    public boolean updateNutriLabel(NutriLabel updatedLabel, long id) {
+    @CacheEvict(value = {"sleepInsights", "weightInsights", "mentalHealthInsights"}, key = "#result", condition = "#result != null")
+    public long updateNutriLabel(NutriLabel updatedLabel, long id) {
         Optional<NutriLabel> nutriLabelDB = nutriLabelRepository.findById(id);
         if(nutriLabelDB.isEmpty()) {
-            return false;
+            return -1;
         }
         NutriLabel existing = nutriLabelDB.get();
         if (updatedLabel.getBarcode() != null) existing.setBarcode(updatedLabel.getBarcode());
@@ -59,16 +62,18 @@ public class NutriLabelService {
         if (updatedLabel.getPotassium() != null) existing.setPotassium(updatedLabel.getPotassium());
         if (updatedLabel.getServings() != null) existing.setServings(updatedLabel.getServings());
         nutriLabelRepository.save(existing);
-        return true;
+        return existing.getMeal().getId();
     }
 
-    public boolean deleteNutriLabel(long id) {
+    @CacheEvict(value = {"sleepInsights", "weightInsights", "mentalHealthInsights"}, key = "#result", condition = "#result != null")
+    public long deleteNutriLabel(long id) {
         Optional<NutriLabel> nutriLabelDB = nutriLabelRepository.findById(id);
         if(nutriLabelDB.isEmpty()) {
-            return false;
+            return -1;
         }
         NutriLabel nutriLabel = nutriLabelDB.get();
+        long mealId = nutriLabel.getMeal().getId();
         nutriLabelRepository.delete(nutriLabel);
-        return true;
+        return mealId;
     }
 }

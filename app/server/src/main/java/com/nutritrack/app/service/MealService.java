@@ -28,6 +28,14 @@ public class MealService {
         return mealRepository.findByUserUsername(username);
     }
 
+    public List<Meal> getAllMealsAfterDate(String username, LocalDateTime date) {
+        Optional<User> user = userService.findByUsername(username);
+        if (user.isEmpty()) {
+            return null;
+        }
+        return mealRepository.findByUserUsernameAndTimestampAfter(username, date);
+    }
+
     public Meal getMeal(Long mealId) {
         Optional<Meal> meal = mealRepository.findById(mealId);
         if (meal.isEmpty()) {

@@ -2,8 +2,11 @@ package com.nutritrack.app.dto.weight;
 
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class WeightNumeric {
+public class WeightNumeric implements Serializable {
+    private static final long serialVersionUID = 1L;
     private double totalCalories;
     private double averageCalories;
     private double totalAddedSugars;

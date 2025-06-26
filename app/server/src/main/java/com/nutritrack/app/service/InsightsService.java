@@ -7,6 +7,7 @@ import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.service.insights.MentalHealthService;
 import com.nutritrack.app.service.insights.SleepInsightsService;
 import com.nutritrack.app.service.insights.WeightLossService;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 
@@ -22,14 +23,17 @@ public class InsightsService {
         this.mentalHealthService = mentalHealthService;
     }
 
+    @Cacheable(value="sleepInsights", key = "#meal.id")
     public SleepInsightsDTO getSleepInsights(Meal meal) {
         return sleepInsightsService.getSleepInsights(meal);
     }
 
+    @Cacheable(value = "weightInsights", key = "#meal.id")
     public WeightInsightsDTO getWeightInsights(Meal meal) {
         return weightLossService.getWeightLossInsights(meal);
     }
 
+    @Cacheable(value = "mentalHealthInsights", key = "#meal.id")
     public MentalHealthInsightsDTO getMentalHealthInsights(Meal meal) {
         return mentalHealthService.getMentalHealthInsights(meal);
     }
