@@ -2,6 +2,7 @@ package com.nutritrack.app.service;
 
 import com.nutritrack.app.dao.UserRepository;
 import com.nutritrack.app.entity.User;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;

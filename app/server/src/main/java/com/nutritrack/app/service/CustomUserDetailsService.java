@@ -15,15 +15,15 @@ import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
-    private UserRepository userRepository;
+    private UserService userService;
 
-    public CustomUserDetailsService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    public CustomUserDetailsService(UserService userService) {
+        this.userService = userService;
     }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> user = userRepository.findByUsernameOrEmail(username, username);
+        Optional<User> user = userService.findByUsernameOrEmail(username, username);
         if(user.isPresent()) {
             User userDetails = user.get();
             Set<GrantedAuthority> authorities = userDetails
