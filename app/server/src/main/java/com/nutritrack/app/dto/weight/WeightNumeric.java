@@ -5,8 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class WeightNumeric implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class WeightNumeric{
     private double totalCalories;
     private double averageCalories;
     private double totalAddedSugars;

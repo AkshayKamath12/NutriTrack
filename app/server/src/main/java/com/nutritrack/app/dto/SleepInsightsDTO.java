@@ -5,10 +5,9 @@ import com.nutritrack.app.dto.sleep.SleepScores;
 import com.nutritrack.app.dto.sleep.SleepText;
 import lombok.Data;
 
-import java.io.Serializable;
 
 @Data
-public class SleepInsightsDTO implements Serializable {
+public class SleepInsightsDTO {
     private SleepText sleepText;
     private SleepNumeric sleepNumeric;
     private SleepScores sleepScores;

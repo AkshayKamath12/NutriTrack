@@ -5,7 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class MentalHealthText implements Serializable {
+public class MentalHealthText{
     private String omegaImbalanceInsight;
     private String totalAddedSugarInsight;
     private String totalDietaryFiberInsight;

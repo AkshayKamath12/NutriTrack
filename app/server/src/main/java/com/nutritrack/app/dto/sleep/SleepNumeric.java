@@ -5,8 +5,7 @@ import lombok.Data;
 import java.io.Serializable;
 
 @Data
-public class SleepNumeric implements Serializable {
-    private static final long serialVersionUID = 1L;
+public class SleepNumeric {
     private double averageAddedSugars;
     private double averageSodium;
     private double averageDietaryFiber;
