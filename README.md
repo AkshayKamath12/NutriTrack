@@ -58,7 +58,7 @@ cd Revive/app/server
 ### 3. Set Up Redis
 
 1. **Install Redis** and start the server.
-2. Follow the instructions on the official website.
+2. Follow the instructions on the [official website](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/).
 3. By default, the server will start on localhost at port 6379.
 
 ---
