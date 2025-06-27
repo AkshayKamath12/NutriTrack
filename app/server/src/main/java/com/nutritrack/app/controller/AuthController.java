@@ -27,10 +27,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody SignInDTO signInDTO, HttpServletResponse response) {
+    public ResponseEntity<?> login(@RequestBody SignInDTO signInDTO, HttpServletRequest request, HttpServletResponse response) {
         String jwtToken;
+        String clientIpAddress = request.getHeader("X-Forwarded-For");
+        if (clientIpAddress == null || clientIpAddress.isEmpty() || "unknown".equalsIgnoreCase(clientIpAddress)) {
+            clientIpAddress = request.getRemoteAddr();
+        }
         try {
-            jwtToken = authService.login(signInDTO);
+            jwtToken = authService.login(signInDTO, clientIpAddress);
         } catch (DisabledException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
         }

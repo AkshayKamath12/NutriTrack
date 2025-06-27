@@ -16,8 +16,8 @@ public class LoginRateLimitService {
         this.redisTemplate = redisTemplate;
     }
 
-    public boolean isLoginAttemptAllowed(String username) {
-        String key = "loginAttempts:" + username;
+    public boolean isLoginAttemptAllowed(String clientIp) {
+        String key = "loginAttempts:" + clientIp;
         Long attempts = redisTemplate.opsForValue().increment(key);
         if(attempts != null && attempts == 1) {
             redisTemplate.expire(key, ATTEMPT_WINDOW.toMillis(), TimeUnit.MILLISECONDS);
@@ -25,8 +25,8 @@ public class LoginRateLimitService {
         return attempts <= MAX_RETRY_COUNT;
     }
 
-    public void resetUponSuccessfulLogin(String username) {
-        String key = "loginAttempts:" + username;
+    public void resetUponSuccessfulLogin(String clientIp) {
+        String key = "loginAttempts:" + clientIp;
         redisTemplate.delete(key);
     }
 }

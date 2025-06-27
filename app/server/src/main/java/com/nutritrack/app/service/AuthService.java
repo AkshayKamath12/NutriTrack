@@ -42,13 +42,14 @@ public class AuthService {
         this.loginRateLimitService = loginRateLimitService;
     }
 
-    public String login(SignInDTO signInDTO) {
+    public String login(SignInDTO signInDTO, String clientIp) {
         String usernameOrEmail = signInDTO.getUsernameOrEmail();
-        if (!loginRateLimitService.isLoginAttemptAllowed(usernameOrEmail)) {
+        if (!loginRateLimitService.isLoginAttemptAllowed(clientIp)) {
             throw new DisabledException("Too many login attempts");
         }
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrEmail, signInDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
+        loginRateLimitService.resetUponSuccessfulLogin(clientIp);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return jwtUtil.generateToken(userDetails);
     }
