@@ -6,13 +6,12 @@ Revive is a React Native + Spring Boot app that helps users improve their overal
 
 ## Tech Stack
 
-- Java 21
-- Spring Boot 3.5
+- Java
+- Spring Boot
 - PostgreSQL
-- Maven
+- Redis
 - JPA (Hibernate)
 - Spring Security (JWT auth)
-- Lombok
 
 ---
 
@@ -27,6 +26,7 @@ Follow these steps to set up and run the backend.
 - [Java 21](https://adoptium.net/en-GB/) (Ensure `java -version` outputs version 21)
 - [IntelliJ IDEA](https://www.jetbrains.com/idea/download/) (Community Edition is fine)
 - [PostgreSQL](https://www.postgresql.org/download/)
+- [Redis](https://redis.io/docs/latest/operate/oss_and_stack/install/archive/install-redis/)
 - [Maven](https://maven.apache.org/download.cgi) (optional, IntelliJ can handle Maven)
 
 ---
