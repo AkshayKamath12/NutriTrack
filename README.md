@@ -55,27 +55,31 @@ cd Revive/app/server
 
 ---
 
-### 3. Configure `application.properties`
+### 3. Set Up Redis
 
-Edit `src/main/resources/application.properties` to match your PostgreSQL setup:
+1. **Install Redis** and start the server.
+2. Follow the instructions on the official website.
+3. By default, the server will start on localhost at port 6379.
+
+---
+
+### 4. Configure `application.properties`
+
+Edit `src/main/resources/application.properties` to match your PostgreSQL and Redis setup:
 
 ```properties
-spring.application.name=app
 spring.datasource.url=jdbc:postgresql://localhost:5432/nutritrack
 spring.datasource.username= your db username here
 spring.datasource.password= your db password here
 
-spring.jpa.hibernate.ddl-auto=update
-logging.level.org.springframework.security=DEBUG
-
-spring.config.import=optional:file:.env[.properties]
-jwt.secret=${JWT_SECRET}
-jwt.duration=${JWT_DURATION}
+spring.cache.type=redis
+spring.data.redis.host=localhost
+spring.data.redis.port=6379
 ```
 
 ---
 
-### 4. Create a `.env` File
+### 5. Create a `.env` File
 
 At the root of the `app/server` directory, create a `.env` file with your JWT secret and duration:
 
@@ -86,7 +90,7 @@ JWT_DURATION=3600000 (or whatever you want)
 
 ---
 
-### 5. Open and Run in IntelliJ IDEA
+### 6. Open and Run in IntelliJ IDEA
 
 1. Open IntelliJ IDEA.
 2. Select **Open** and choose the `app/server` folder.
@@ -95,7 +99,7 @@ JWT_DURATION=3600000 (or whatever you want)
 
 ---
 
-### 6. API Usage
+### 7. API Usage
 
 - The backend will start on `http://localhost:8080` by default.
 - Use Postman or your frontend to interact with the API.
