@@ -4,9 +4,11 @@ import com.nutritrack.app.entity.Meal;
 import com.nutritrack.app.entity.NutriLabel;
 import com.nutritrack.app.service.MealService;
 import com.nutritrack.app.service.NutriLabelService;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
 import java.security.Principal;
 import java.util.List;
 
@@ -22,14 +24,14 @@ public class NutriLabelController {
     }
 
     @GetMapping("/labels/{mealId}")
-    public List<NutriLabel> getNutriLabels(@PathVariable long mealId,Principal principal) {
+    public List<NutriLabel> getNutriLabels(@PathVariable long mealId,Principal principal) throws IllegalAccessException {
         String username = principal.getName();
         if(username == null) {
-            return null;
+            throw new IllegalAccessException("username is null");
         }
         Meal meal = mealService.getMeal(mealId);
         if (meal == null) {
-            return null;
+            throw new RuntimeException("meal not found");
         }
         return nutriLabelService.getAllNutriLabels(meal);
     }

@@ -36,7 +36,7 @@ public class AuthController {
         try {
             jwtToken = authService.login(signInDTO, clientIpAddress);
         } catch (DisabledException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.TOO_MANY_REQUESTS);
         }
         Cookie cookie = new Cookie("jwt-token", jwtToken);
         cookie.setHttpOnly(true); 

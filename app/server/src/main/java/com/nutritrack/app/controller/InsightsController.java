@@ -27,7 +27,7 @@ public class InsightsController {
     public SleepInsightsDTO sleepInsights(@PathVariable long mealId) {
         Meal meal = mealService.getMeal(mealId);
         if (meal == null) {
-            return null;
+            throw new RuntimeException("Meal not found");
         }
         return insightsService.getSleepInsights(meal);
     }
@@ -36,7 +36,7 @@ public class InsightsController {
     public WeightInsightsDTO weightInsights(@PathVariable long mealId) {
         Meal meal = mealService.getMeal(mealId);
         if (meal == null) {
-            return null;
+            throw new RuntimeException("Meal not found");
         }
         return insightsService.getWeightInsights(meal);
     }
@@ -45,7 +45,7 @@ public class InsightsController {
     public MentalHealthInsightsDTO mentalHealthInsights(@PathVariable long mealId) {
         Meal meal = mealService.getMeal(mealId);
         if (meal == null) {
-            return null;
+            throw new RuntimeException("Meal not found");
         }
         return insightsService.getMentalHealthInsights(meal);
     }

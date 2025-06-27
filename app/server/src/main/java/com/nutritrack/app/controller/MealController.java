@@ -19,17 +19,21 @@ public class MealController {
     }
 
     @GetMapping("/allMeals")
-    public List<Meal> getMeals(Principal principal) {
+    public List<Meal> getMeals(Principal principal) throws IllegalAccessException {
         String username = principal.getName();
         if(username == null) {
-            return null;
+            throw new IllegalAccessException("username is null");
         }
         return mealService.getAllMeals(username);
     }
 
     @GetMapping("/meal/{mealId}")
     public Meal getMeal(@PathVariable long mealId) {
-        return mealService.getMeal(mealId);
+        Meal meal = mealService.getMeal(mealId);
+        if(meal == null) {
+            throw new RuntimeException("meal not found");
+        }
+        return meal;
     }
 
     @PostMapping("/meal")
