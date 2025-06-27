@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,7 +28,12 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody SignInDTO signInDTO, HttpServletResponse response) {
-        String jwtToken = authService.login(signInDTO);
+        String jwtToken;
+        try {
+            jwtToken = authService.login(signInDTO);
+        } catch (DisabledException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.UNAUTHORIZED);
+        }
         Cookie cookie = new Cookie("jwt-token", jwtToken);
         cookie.setHttpOnly(true); 
         cookie.setPath("/");     

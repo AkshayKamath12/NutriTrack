@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,17 +31,23 @@ public class AuthService {
     private RoleRepository roleRepository;
     private PasswordEncoder passwordEncoder;
     private JwtUtil jwtUtil;
+    private LoginRateLimitService loginRateLimitService;
 
-    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository, JwtUtil jwtUtil) {
+    public AuthService(AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder, UserRepository userRepository, RoleRepository roleRepository, JwtUtil jwtUtil, LoginRateLimitService loginRateLimitService) {
         this.authenticationManager = authenticationManager;
         this.passwordEncoder = passwordEncoder;
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.jwtUtil = jwtUtil;
+        this.loginRateLimitService = loginRateLimitService;
     }
 
     public String login(SignInDTO signInDTO) {
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(signInDTO.getUsernameOrEmail(), signInDTO.getPassword()));
+        String usernameOrEmail = signInDTO.getUsernameOrEmail();
+        if (!loginRateLimitService.isLoginAttemptAllowed(usernameOrEmail)) {
+            throw new DisabledException("Too many login attempts");
+        }
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(usernameOrEmail, signInDTO.getPassword()));
         SecurityContextHolder.getContext().setAuthentication(authentication);
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         return jwtUtil.generateToken(userDetails);
