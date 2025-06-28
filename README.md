@@ -16,8 +16,9 @@ Revive is a React Native + Spring Boot app that helps users improve their overal
 ---
 
 ## Tech Stack (Frontend)
-- JavaScript
+
 - React Native
+- TypeScript
 - Expo 
 
 ---
