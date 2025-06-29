@@ -27,13 +27,13 @@ public class UserNutritionTrendsService {
             List<NutriLabel> nutriLabelList = mealsOnDate.stream().flatMap(meal -> meal.getNutritionLabels().stream()).toList();
             Map<String, Object> resultElement = new HashMap<>();
             resultElement.put("date", entry.getKey());
-            calculateAverages(resultElement, nutriLabelList, validFields);
+            calculateTotals(resultElement, nutriLabelList, validFields, mealsOnDate.size());
             result.add(resultElement);
         }
         return result;
     }
 
-    private void calculateAverages(Map<String, Object> resultMap, List<NutriLabel> nutriLabelList, List<String> validFields){
+    private void calculateTotals(Map<String, Object> resultMap, List<NutriLabel> nutriLabelList, List<String> validFields, int numberOfMeals){
         Map<String, Double> totals = new HashMap<>();
 
         for (String field : validFields) {
@@ -54,16 +54,9 @@ public class UserNutritionTrendsService {
                 }
             }
         }
-        int count = nutriLabelList.size();
-        if (count > 0) {
-            for (String key: totals.keySet()) {
-                double average = totals.get(key) / count;
-                resultMap.put(key, average);
-            }
-        } else {
-            for (String key: totals.keySet()) {
-                resultMap.put(key, 0);
-            }
+
+        for (String key: totals.keySet()) {
+            resultMap.put(key, totals.get(key) / numberOfMeals);
         }
 
     }
