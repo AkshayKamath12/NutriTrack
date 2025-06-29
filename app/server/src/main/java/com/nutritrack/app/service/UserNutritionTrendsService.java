@@ -17,8 +17,8 @@ public class UserNutritionTrendsService {
         this.mealService = mealService;
     }
 
-    public List<Map<String, Object>> lastWeekTrends(String username, List<String> nutritionLabelFields) {
-        List<Meal> meals = mealService.getAllMealsAfterDate(username, LocalDateTime.now().minusDays(7));
+    public List<Map<String, Object>> lastWeekTrends(String username, List<String> nutritionLabelFields, int days) {
+        List<Meal> meals = mealService.getAllMealsAfterDate(username, LocalDateTime.now().minusDays(days));
         List<String> validFields = validateNutritionLabels(nutritionLabelFields);
         Map<LocalDate, List<Meal>> mealsGroupedByDate = groupMealsByDate(meals);
         List<Map<String, Object>> result = new ArrayList<>();

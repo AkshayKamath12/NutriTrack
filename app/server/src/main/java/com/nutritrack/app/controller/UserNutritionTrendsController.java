@@ -19,12 +19,15 @@ public class UserNutritionTrendsController {
         this.userNutritionTrendsService = userNutritionTrendsService;
     }
 
-    @GetMapping("/lastWeek")
-    public List<Map<String, Object>> lastWeekInsights(@RequestParam List<String> fields, Principal principal) {
+    @GetMapping("/lastMonth")
+    public List<Map<String, Object>> lastMonthInsights(@RequestParam List<String> fields, @RequestParam(defaultValue = "31") int days, Principal principal) {
         String username = principal.getName();
         if(username == null) {
             throw new RuntimeException("Username is null");
         }
-        return userNutritionTrendsService.lastWeekTrends(username, fields);
+        if(days > 31 || days < 1) {
+            throw new RuntimeException("Invalid days");
+        }
+        return userNutritionTrendsService.lastWeekTrends(username, fields, days);
     }
 }
